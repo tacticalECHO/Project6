@@ -1,0 +1,16 @@
+[
+  {
+    "camera_id": "CAM001",
+    "route": "I-40",
+    "region": "Durham",
+    "direction": "EB",
+    "status": "active"
+  },
+  {
+    "camera_id": "CAM002",
+    "route": "NC-147",
+    "region": "Durham",
+    "direction": "NB",
+    "status": "active"
+  }
+]
