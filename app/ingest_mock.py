@@ -27,7 +27,7 @@ def ensure_bucket(client: Minio, bucket_name: str):
         client.make_bucket(bucket_name)
 
 def init_mongo():
-    client = MongoClient(MONGO_URI)
+    client = MongoClient(MONGO_URI,tz_aware=True)
     db = client[DB_NAME]
     db.raw_captures.create_index(
         [("camera_id", 1), ("capture_ts", 1)],

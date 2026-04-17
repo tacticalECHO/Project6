@@ -1,8 +1,7 @@
 from datetime import datetime
 
-from airflow.sdk import DAG
-from airflow.providers.standard.operators.python import PythonOperator
-
+from airflow import DAG
+from airflow.operators.python import PythonOperator
 from app.sync_cameras import main as sync_cameras_main
 
 

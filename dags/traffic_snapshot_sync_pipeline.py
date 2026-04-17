@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from airflow.sdk import DAG
-from airflow.providers.standard.operators.python import PythonOperator
+from airflow import DAG
+from airflow.operators.python import PythonOperator
 
 from app.ingest_511NY import main as ingest_main
 from app.quality_check import main as quality_check_main

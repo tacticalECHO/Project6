@@ -10,7 +10,7 @@
     "longitude": -78.8986,
     "location": "I-40 EB, Durham",
     "status": "active",
-    "image_url": "http://127.0.0.1:8000/camera/CAM001",
+    "image_url": "http://host.docker.internal:8000/camera/CAM001",
     "view_id": "CAM001_VIEW_1",
     "view_description": "Mock roadside camera view",
     "views": [
@@ -18,7 +18,7 @@
         "Id": "CAM001_VIEW_1",
         "Status": "enabled",
         "Description": "Mock roadside camera view",
-        "Url": "http://127.0.0.1:8000/camera/CAM001"
+        "Url": "http://host.docker.internal:8000/camera/CAM001"
       }
     ]
   },
@@ -33,7 +33,7 @@
     "longitude": -78.9390,
     "location": "NC-147 NB, Durham",
     "status": "active",
-    "image_url": "http://127.0.0.1:8000/camera/CAM002",
+    "image_url": "http://host.docker.internal:8000/camera/CAM002",
     "view_id": "CAM002_VIEW_1",
     "view_description": "Mock roadside camera view",
     "views": [
@@ -41,7 +41,7 @@
         "Id": "CAM002_VIEW_1",
         "Status": "enabled",
         "Description": "Mock roadside camera view",
-        "Url": "http://127.0.0.1:8000/camera/CAM002"
+        "Url": "http://host.docker.internal:8000/camera/CAM002"
       }
     ]
   }

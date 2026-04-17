@@ -64,7 +64,7 @@ def load_cameras_from_mongo(db):
     return list(db.cameras.find({"status": "active"}, {"_id": 0}))
 
 def init_mongo():
-    client = MongoClient(MONGO_URI)
+    client = MongoClient(MONGO_URI,tz_aware=True)
     db = client[DB_NAME]
 
     db.quality_audits.create_index(
@@ -99,6 +99,12 @@ def parse_ts(ts_str: str) -> datetime:
 #            })
 #    return expected
 
+def ensure_utc_aware(dt):
+    if dt is None:
+        return None
+    if dt.tzinfo is None:
+        return dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 def load_raw_capture_map(db,start_ts=None, end_ts=None):
     query = {}
@@ -109,6 +115,9 @@ def load_raw_capture_map(db,start_ts=None, end_ts=None):
     raw_docs = list(db.raw_captures.find(query))
     raw_map = {}
     for doc in raw_docs:
+        doc["capture_ts"] = ensure_utc_aware(doc.get("capture_ts"))
+        if doc.get("ingest_ts"):
+            doc["ingest_ts"] = ensure_utc_aware(doc.get("ingest_ts"))
         raw_map[(doc["camera_id"], doc["capture_ts"])] = doc
     return raw_map, raw_docs
 def build_duplicate_lookup(raw_docs):

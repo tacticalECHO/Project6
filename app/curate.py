@@ -18,7 +18,7 @@ def floor_ts_to_cycle(dt: datetime) -> datetime:
     return dt.replace(minute=minute, second=0, microsecond=0)
 
 def init_mongo():
-    client = MongoClient(MONGO_URI)
+    client = MongoClient(MONGO_URI,tz_aware=True)
     db = client[DB_NAME]
 
     db.camera_hourly_summary.create_index(

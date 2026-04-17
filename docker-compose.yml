@@ -48,6 +48,7 @@ services:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
       MINIO_BUCKET: traffic-raw
+      PYTHONPATH: /opt/airflow
     volumes:
       - ./app:/opt/airflow/app
       - ./config:/opt/airflow/config
@@ -56,16 +57,8 @@ services:
       - ./plugins:/opt/airflow/plugins
       - ./mock_source:/opt/airflow/mock_source
     command: >
-      bash -c "
-      airflow db migrate &&
-      airflow users create
-        --username admin
-        --password admin
-        --firstname admin
-        --lastname user
-        --role Admin
-        --email admin@example.com
-      "
+      bash -c "airflow db migrate &&
+      airflow users create --username admin --password admin --firstname admin --lastname user --role Admin --email admin@example.com"
 
   airflow-webserver:
     build: .
@@ -86,6 +79,7 @@ services:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
       MINIO_BUCKET: traffic-raw
+      PYTHONPATH: /opt/airflow
     ports:
       - "8080:8080"
     volumes:
@@ -116,6 +110,7 @@ services:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
       MINIO_BUCKET: traffic-raw
+      PYTHONPATH: /opt/airflow
     volumes:
       - ./app:/opt/airflow/app
       - ./config:/opt/airflow/config

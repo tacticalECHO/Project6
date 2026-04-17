@@ -14,7 +14,7 @@ API_KEY = os.getenv("NY511_API_KEY")
 CAMERAS_API_URL = "https://511ny.org/api/v2/get/cameras"
 
 def init_mongo():
-    client = MongoClient(MONGO_URI)
+    client = MongoClient(MONGO_URI,tz_aware=True)
     db = client[DB_NAME]
     db.cameras.create_index("camera_id", unique=True)
     return db

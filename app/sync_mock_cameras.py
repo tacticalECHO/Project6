@@ -11,7 +11,7 @@ MONGO_URI = os.getenv("MONGO_URI", "mongodb://127.0.0.1:27017/")
 DB_NAME = "traffic_monitoring"
 
 def init_mongo():
-    client = MongoClient(MONGO_URI)
+    client = MongoClient(MONGO_URI,tz_aware=True)
     db = client[DB_NAME]
     db.cameras.create_index("camera_id", unique=True)
     return db
