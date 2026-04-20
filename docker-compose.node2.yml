@@ -1,0 +1,40 @@
+services:
+  airflow-worker-processing:
+    build: .
+    container_name: traffic-airflow-worker-processing
+    environment: &env
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@10.10.8.10:5432/airflow
+      AIRFLOW__CELERY__BROKER_URL: redis://:@10.10.8.10:6379/0
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@10.10.8.10:5432/airflow
+      AIRFLOW__CORE__FERNET_KEY: "your_fernet_key_here"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CELERY__WORKER_CONCURRENCY: "2"
+      MONGO_URI: mongodb://10.10.8.10:27017/
+      MINIO_ENDPOINT: 10.10.8.10:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: traffic-raw
+      PYTHONPATH: /opt/airflow
+    volumes: &vols
+      - ./app:/opt/airflow/app
+      - ./config:/opt/airflow/config
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    command: celery worker --queues processing -c 2
+
+  api:
+    build: .
+    container_name: traffic-api
+    environment:
+      MONGO_URI: mongodb://10.10.8.10:27017/
+      MINIO_ENDPOINT: 10.10.8.10:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: traffic-raw
+    volumes:
+      - ./app:/opt/airflow/app
+    ports:
+      - "8000:8000"
+    entrypoint: ["python", "-m", "uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

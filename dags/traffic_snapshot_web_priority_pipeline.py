@@ -20,17 +20,20 @@ with DAG(
     ingest_task = PythonOperator(
         task_id="ingest_priority_images",
         python_callable=ingest_main,
+        queue="ingest",
     )
 
     quality_check_task = PythonOperator(
         task_id="quality_check",
         python_callable=quality_check_main,
         op_kwargs={"cycle_minutes": 2},
+        queue="processing",
     )
 
     curate_task = PythonOperator(
         task_id="curate_hourly_summary",
         python_callable=curate_main,
+        queue="processing",
     )
 
     ingest_task >> quality_check_task >> curate_task

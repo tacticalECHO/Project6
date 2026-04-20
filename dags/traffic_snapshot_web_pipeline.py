@@ -31,17 +31,20 @@ with DAG(
             task_id=f"ingest_batch_{i}",
             python_callable=main_batch,
             op_kwargs={"batch_config": batch_config},
+            queue="ingest",
         )
         ingest_tasks.append(t)
 
     quality_check_task = PythonOperator(
         task_id="quality_check",
         python_callable=quality_check_main,
+        queue="processing",
     )
 
     curate_task = PythonOperator(
         task_id="curate_hourly_summary",
         python_callable=curate_main,
+        queue="processing",
     )
 
     ingest_tasks >> quality_check_task >> curate_task

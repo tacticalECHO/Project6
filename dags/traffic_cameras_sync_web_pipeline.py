@@ -18,4 +18,5 @@ with DAG(
     sync_cameras_task = PythonOperator(
         task_id="sync_web_cameras",
         python_callable=sync_cameras_main,
+        queue="processing",
     )

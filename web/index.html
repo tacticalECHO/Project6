@@ -272,7 +272,7 @@
 
 <header>
   <h1>🚦 Traffic Monitor</h1>
-  <input id="api-url" type="text" value="http://localhost:8000" placeholder="API endpoint" />
+  <input id="api-url" type="text" value="http://10.10.8.12:8000" placeholder="API endpoint" />
   <button id="connect-btn" onclick="connect()">Connect</button>
   <div id="status-dot" title="Not connected"></div>
 </header>
@@ -321,7 +321,7 @@
 </main>
 
 <script>
-let API = "http://localhost:8000";
+let API = "http://10.10.8.12:8000";
 let allCameras = [];
 let currentCameraId = null;
 let captureOffset = 0;

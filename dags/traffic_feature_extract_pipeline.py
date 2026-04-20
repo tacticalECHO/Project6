@@ -18,4 +18,5 @@ with DAG(
     feature_extract_task = PythonOperator(
         task_id="extract_mock_features",
         python_callable=feature_extract_main,
+        queue="processing",
     )

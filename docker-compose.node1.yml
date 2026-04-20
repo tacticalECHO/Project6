@@ -1,0 +1,27 @@
+services:
+  airflow-worker-ingest:
+    build: .
+    container_name: traffic-airflow-worker-ingest
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@10.10.8.10:5432/airflow
+      AIRFLOW__CELERY__BROKER_URL: redis://:@10.10.8.10:6379/0
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@10.10.8.10:5432/airflow
+      AIRFLOW__CORE__FERNET_KEY: "your_fernet_key_here"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CELERY__WORKER_CONCURRENCY: "4"
+      MONGO_URI: mongodb://10.10.8.10:27017/
+      MINIO_ENDPOINT: 10.10.8.10:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: traffic-raw
+      INGEST_BATCH_COUNT: "3"
+      CAMERAS_PER_BATCH: "100"
+      PYTHONPATH: /opt/airflow
+    volumes:
+      - ./app:/opt/airflow/app
+      - ./config:/opt/airflow/config
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    command: celery worker --queues ingest -c 4
