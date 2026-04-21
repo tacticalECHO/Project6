@@ -7,7 +7,8 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@10.10.8.10:5432/airflow
       AIRFLOW__CELERY__BROKER_URL: redis://:@10.10.8.10:6379/0
       AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@10.10.8.10:5432/airflow
-      AIRFLOW__CORE__FERNET_KEY: "your_fernet_key_here"
+      AIRFLOW__CORE__FERNET_KEY: "wHnhx4qglKUMQjP0yEFEhGvU_4IIPK7Jk03tR_tTH3M="
+      AIRFLOW__WEBSERVER__SECRET_KEY: "DEproject"
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
       AIRFLOW__CELERY__WORKER_CONCURRENCY: "2"
       MONGO_URI: mongodb://10.10.8.10:27017/
