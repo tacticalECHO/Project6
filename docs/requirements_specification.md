@@ -5,7 +5,7 @@
 
 ## 1. 概述
 
-本文档定义交通监控流水线所需支持的下游数据需求。流水线从纽约州 511 系统的 1000+ 个交通摄像头采集静态图像，可靠地存储原始资产，并为下游分析准备经过整理的数据集。流水线本身不执行下游分析——它提供使此类分析成为可能的数据基础设施。
+本文档定义交通监控流水线所需支持的下游数据需求。流水线从纽约州 511 系统的 2200+ 个交通摄像头采集静态图像，可靠地存储原始资产，并为下游分析准备经过整理的数据集。流水线本身不执行下游分析——它提供使此类分析成为可能的数据基础设施。
 
 ---
 
@@ -50,7 +50,7 @@
 - `cameras` 集合，包含每个摄像头的结构化、可查询元数据：`camera_id`、`roadway`、`direction`、`location`、`latitude`、`longitude`、`state`、`county`、`region`、`status`、`priority`
 - 超出源 API 提供范围的地理信息增强：当源数据缺少 county/state 时从 FIPS 编码表补全；对坐标有效的摄像头通过 Nominatim 进行反向地理编码
 - 对象存储路径按 `camera_id / date / hour` 分区，无需全表扫描即可高效检索某摄像头或某时间范围内的所有图像
-- API 端点支持按 `roadway`、`county`、`state`、`priority`、`status` 和时间范围过滤（见第 5 节）
+- API 端点支持按 `region`、`roadway`、`county`、`state`、`priority`、`status` 和时间范围过滤（见第 5 节）
 
 ### 3.4 派生特征提取
 
@@ -94,7 +94,7 @@
 
 | 端点 | 用途 |
 |------|------|
-| `GET /cameras` | 摄像头列表，支持 `roadway`、`county`、`state`、`priority`、`status` 过滤 |
+| `GET /cameras` | 摄像头列表，支持 `region`、`roadway`、`county`、`state`、`priority`、`status` 过滤 |
 | `GET /cameras/{id}` | 单个摄像头完整元数据 |
 | `GET /cameras/{id}/captures` | 历史采集记录，支持时间范围过滤 |
 | `GET /cameras/{id}/summary` | 小时级完整率与质量指标 |
@@ -110,5 +110,4 @@
 - **更多摄像头：** 采集按批次分区；增加摄像头只增加批次负载，无需结构变更
 - **更高频率：** 更改调度间隔只需重新配置 DAG；存储和数据模型与间隔无关
 - **附加元数据：** `cameras` 集合基于文档模型（MongoDB）；新字段无需迁移即可添加
-- **新 CV 模型：** `derived_features` 中的 `model_id` / `model_version` 字段支持多个模型版本在同一集合中共存
 - **新下游系统：** REST API 将下游消费者与直接数据库访问解耦

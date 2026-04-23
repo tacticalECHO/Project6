@@ -341,7 +341,7 @@ docker compose -f docker-compose.node2.yml up -d   # 10.10.8.12
 
 | 成员 | 负责模块 | 核心文件 |
 |------|---------|---------|
-| A | 数据采集 & 摄像头目录 | `sync_web_cameras.py`, `ingest_web.py`, `ingest_web_priority.py` |
-| B | 存储 & 基础设施 | `docker-compose.node0/1/2.yml`, `Dockerfile`, `utils.py` |
-| C | 数据质量 & 汇总 | `quality_check.py`, `curate.py` |
-| D | 特征提取 & API & Dashboard | `feature_extract_mock.py`, `api.py`, `web/index.html` |
+| Boyi Zhao | 数据采集 & 摄像头目录 | `sync_web_cameras.py`, `ingest_web.py`, `ingest_web_priority.py` |
+| Wenhao Wu | 存储 & 基础设施 & 测试| `docker-compose.node0/1/2.yml`, `Dockerfile`, `utils.py` |
+| Ziheng Pan | 数据质量 & 汇总 | `quality_check.py`, `curate.py` |
+| Russo | 特征提取 & API & Dashboard | `feature_extract_mock.py`, `api.py`, `web/index.html` |
